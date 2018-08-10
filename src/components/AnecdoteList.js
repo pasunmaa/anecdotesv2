@@ -16,8 +16,7 @@ class AnecdoteList extends React.Component {
               has {anecdote.votes}
               <button onClick={() =>
                 this.props.store.dispatch(
-                  actionFor.anecdoteVoting(anecdote.id))
-              }>
+                  actionFor.anecdoteVoting(anecdote.id)) }>
                 vote
               </button>
             </div>
