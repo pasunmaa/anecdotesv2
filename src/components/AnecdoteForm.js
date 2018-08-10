@@ -7,13 +7,20 @@ class AnecdoteForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const content = e.target.anecdote.value
-    this.context.store.dispatch(
-      actionFor.anecdoteCreation(content))
-    e.target.anecdote.value = ''
-    this.context.store.dispatch(
-      notificationSet('You have created a new anecodote \''+content+'\''))
+    if (content.length)
+    {
+      this.context.store.dispatch(
+        actionFor.anecdoteCreation(content))
+      e.target.anecdote.value = ''
+      this.context.store.dispatch(
+        notificationSet('You have created a new anecodote \''+content+'\''))
+    }
+    else
+      this.context.store.dispatch(
+        notificationSet('Anekdootti ei saa olla tyhjä'))
     window.setTimeout(() => this.context.store.dispatch(
       notificationReset()), 5000)
+
   }
   render() {
     return (
