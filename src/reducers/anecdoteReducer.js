@@ -7,23 +7,21 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
-export const actionFor = {
-  anecdoteCreation(content) {
-    //console.log(content)
-    return {
-      type: 'CREATE',
-      data: {
-        content,
-        votes: 0,
-        id: generateId()
-      }
+export const anecdoteCreation = (content) => {
+  return {
+    type: 'CREATE',
+    data: {
+      content,
+      votes: 0,
+      id: generateId()
     }
-  },
-  anecdoteVoting(id) {
-    return {
-      type: 'VOTE',
-      data: id
-    }
+  }
+}
+
+export const anecdoteVoting = (id) => {
+  return {
+    type: 'VOTE',
+    data: id
   }
 }
 

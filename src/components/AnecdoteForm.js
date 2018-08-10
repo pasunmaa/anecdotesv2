@@ -1,7 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { actionFor } from '../reducers/anecdoteReducer'
+import { anecdoteCreation } from '../reducers/anecdoteReducer'
 import { notificationSet, notificationReset } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
 class AnecdoteForm extends React.Component {
   handleSubmit = (e) => {
@@ -9,17 +9,13 @@ class AnecdoteForm extends React.Component {
     const content = e.target.anecdote.value
     if (content.length)
     {
-      this.context.store.dispatch(
-        actionFor.anecdoteCreation(content))
+      this.props.anecdoteCreation(content)
       e.target.anecdote.value = ''
-      this.context.store.dispatch(
-        notificationSet('You have created a new anecodote \''+content+'\''))
+      this.props.notificationSet('You have created a new anecodote \''+content+'\'')
     }
     else
-      this.context.store.dispatch(
-        notificationSet('Anekdootti ei saa olla tyhjä'))
-    window.setTimeout(() => this.context.store.dispatch(
-      notificationReset()), 5000)
+      this.props.notificationSet('Anekdootti ei saa olla tyhjä')
+    window.setTimeout(() => this.props.notificationReset(), 5000)
 
   }
   render() {
@@ -35,7 +31,23 @@ class AnecdoteForm extends React.Component {
   }
 }
 
-AnecdoteForm.contextTypes = {
-  store: PropTypes.object
+/* const mapStateToProps = (state) => {
+  return {
+    filter: state.filter,
+    notification: state.notification,
+    anecdotes: state.anecdotes
+  }
+} */
+
+const mapDispatchToProps = {
+  anecdoteCreation,
+  notificationSet,
+  notificationReset
 }
-export default AnecdoteForm
+
+const AnecdoteFormList = connect(
+  null, //mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteForm)
+
+export default AnecdoteFormList
