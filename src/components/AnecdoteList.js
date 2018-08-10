@@ -1,4 +1,5 @@
 import React from 'react'
+import { actionFor } from '../reducers/anecdoteReducer'
 
 class AnecdoteList extends React.Component {
   render() {
@@ -13,9 +14,9 @@ class AnecdoteList extends React.Component {
             </div>
             <div>
               has {anecdote.votes}
-              <button onClick={() => 
-                this.props.store.dispatch({ type: 'VOTE', id: anecdote.id })
-              }>
+              <button onClick={() =>
+                this.props.store.dispatch(
+                  actionFor.anecdoteVoting(anecdote.id)) }>
                 vote
               </button>
             </div>
