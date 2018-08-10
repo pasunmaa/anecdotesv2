@@ -1,8 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { actionFor } from '../reducers/anecdoteReducer'
+import { notificationSet, notificationReset } from '../reducers/notificationReducer'
+
 
 class AnecdoteList extends React.Component {
+  vote = (id) => () => {
+    const anecdotes = this.context.store.getState().anecdotes
+    this.context.store.dispatch(
+      actionFor.anecdoteVoting(id))
+    this.context.store.dispatch(
+      notificationSet(
+        'You have voted \''+anecdotes.find(a => a.id === id ).content+'\''))
+    window.setTimeout(() => this.context.store.dispatch(
+      notificationReset()), 5000)
+  }
+
   render() {
     const anecdotes = this.context.store.getState().anecdotes
     return (
@@ -15,9 +28,7 @@ class AnecdoteList extends React.Component {
             </div>
             <div>
               has {anecdote.votes}
-              <button onClick={() =>
-                this.context.store.dispatch(
-                  actionFor.anecdoteVoting(anecdote.id)) }>
+              <button onClick={ this.vote(anecdote.id) }>
                 vote
               </button>
             </div>

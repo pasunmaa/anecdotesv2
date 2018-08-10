@@ -1,19 +1,17 @@
 const initialMessage = 'All Good!'
-const emptymsg = ''
 
-export const actionFor = {
-  notificationSet(content) {
-    //console.log(content)
-    return {
-      type: 'SET',
-      data: content,
-    }
-  },
-  notificationReset() {
-    return {
-      type: 'RESET',
-      data: emptymsg,
-    }
+export const notificationSet = (content) => {
+  //console.log(content)
+  return {
+    type: 'SET',
+    data: content,
+  }
+}
+
+export const notificationReset = () => {
+  return {
+    type: 'RESET',
+    data: '',
   }
 }
 
@@ -25,6 +23,7 @@ const reducer = (store = initialMessage, action) => {
     newMessage = action.data
     return newMessage
   case 'RESET':
+    newMessage = action.data
     return newMessage
   default:
     return store

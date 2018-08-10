@@ -46,7 +46,7 @@ const reducer = (store = initialState, action) => {
     //console.log(action)
     const old = store.filter(a => a.id !== action.data) // action.data.id)
     const voted = store.find(a => a.id === action.data) // action.data.id)
-    //console.log(old, voted)
+    //console.log([...old, { ...voted, votes: voted.votes+1 } ])
     return [...old, { ...voted, votes: voted.votes+1 } ]
   }
   case 'CREATE':

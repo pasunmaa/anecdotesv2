@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { actionFor } from '../reducers/anecdoteReducer'
+import { notificationSet, notificationReset } from '../reducers/notificationReducer'
 
 class AnecdoteForm extends React.Component {
   handleSubmit = (e) => {
@@ -9,6 +10,10 @@ class AnecdoteForm extends React.Component {
     this.context.store.dispatch(
       actionFor.anecdoteCreation(content))
     e.target.anecdote.value = ''
+    this.context.store.dispatch(
+      notificationSet('You have created a new anecodote \''+content+'\''))
+    window.setTimeout(() => this.context.store.dispatch(
+      notificationReset()), 5000)
   }
   render() {
     return (
