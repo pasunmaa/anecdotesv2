@@ -1,6 +1,6 @@
 import React from 'react'
 import { anecdoteCreation } from '../reducers/anecdoteReducer'
-import { notificationSet, notificationReset } from '../reducers/notificationReducer'
+import { showNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 
 class AnecdoteForm extends React.Component {
@@ -11,13 +11,12 @@ class AnecdoteForm extends React.Component {
     {
       e.target.anecdote.value = ''
       this.props.anecdoteCreation(content)
-      this.props.notificationSet('You have created a new anecodote \''+content+'\'')
+      this.props.showNotification('You have created a new anecodote \''+content+'\'', 5)
     }
     else
-      this.props.notificationSet('Anekdootti ei saa olla tyhjä')
-    window.setTimeout(() => this.props.notificationReset(), 5000)
-
+      this.props.showNotification('Anekdootti ei saa olla tyhjä', 3)
   }
+
   render() {
     return (
       <div>
@@ -33,8 +32,7 @@ class AnecdoteForm extends React.Component {
 
 const mapDispatchToProps = {
   anecdoteCreation,
-  notificationSet,
-  notificationReset
+  showNotification
 }
 
 const AnecdoteFormList = connect(

@@ -1,22 +1,23 @@
 const initialMessage = 'All Good!'
 
-export const notificationSet = (content) => {
-  //console.log(content)
-  return {
-    type: 'SET',
-    data: content,
-  }
-}
-
-export const notificationReset = () => {
-  return {
-    type: 'RESET',
-    data: '',
+export const showNotification = (message, time) => {
+  return async (dispatch) => {
+    dispatch({
+      type: 'SET',
+      data: message
+    })
+    window.setTimeout(() => {
+      dispatch({
+        type: 'RESET',
+        data: ''
+      })
+    },
+    time * 1000
+    )
   }
 }
 
 const reducer = (store = initialMessage, action) => {
-  //console.log(action)
   let newMessage = ''
   switch (action.type) {
   case 'SET':
