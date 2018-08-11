@@ -1,15 +1,18 @@
 import React from 'react'
 import Filter from './Filter'
+import anecdoteService from '../services/anecdotes'
 import { anecdoteVoting } from '../reducers/anecdoteReducer'
 import { notificationSet, notificationReset } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 
 
 const AnecdoteList = (props) => {
-  const vote = (id) => () => {
+  const vote = (updateid) => async () => {
+    const { content, votes, id } = props.filteredAnecdotes.find(a => a.id === updateid )
+    await anecdoteService.anecdoteVote(updateid, content, votes)
     props.anecdoteVoting(id)
     props.notificationSet(
-      'You have voted \''+props.filteredAnecdotes.find(a => a.id === id ).content+'\'')
+      'You have voted \'' + content + '\'')
     window.setTimeout(() => props.notificationReset(), 5000)
   }
 
