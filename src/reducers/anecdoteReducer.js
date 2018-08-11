@@ -10,11 +10,7 @@
 export const anecdoteCreation = (content) => {
   return {
     type: 'CREATE',
-    data: {
-      content,
-      votes: 0,
-      id: generateId()
-    }
+    data: { ...content }
   }
 }
 
@@ -32,7 +28,7 @@ export const anecdoteInitialization = (data) => {
   }
 }
 
-const generateId = () => (100000*Math.random()).toFixed(0)
+//const generateId = () => (100000*Math.random()).toFixed(0)
 
 /* const asObject = (anecdote) => {
   return {

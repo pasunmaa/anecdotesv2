@@ -1,16 +1,18 @@
 import React from 'react'
+import anecdoteService from '../services/anecdotes'
 import { anecdoteCreation } from '../reducers/anecdoteReducer'
 import { notificationSet, notificationReset } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 
 class AnecdoteForm extends React.Component {
-  handleSubmit = (e) => {
+  addNote = async (e) => {
     e.preventDefault()
     const content = e.target.anecdote.value
     if (content.length)
     {
-      this.props.anecdoteCreation(content)
       e.target.anecdote.value = ''
+      const newAnecdote = await anecdoteService.createNew(content)
+      this.props.anecdoteCreation(newAnecdote)
       this.props.notificationSet('You have created a new anecodote \''+content+'\'')
     }
     else
@@ -22,7 +24,7 @@ class AnecdoteForm extends React.Component {
     return (
       <div>
         <h2>create new</h2>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.addNote}>
           <div><input name='anecdote'/></div>
           <button>create</button>
         </form>
@@ -30,14 +32,6 @@ class AnecdoteForm extends React.Component {
     )
   }
 }
-
-/* const mapStateToProps = (state) => {
-  return {
-    filter: state.filter,
-    notification: state.notification,
-    anecdotes: state.anecdotes
-  }
-} */
 
 const mapDispatchToProps = {
   anecdoteCreation,
