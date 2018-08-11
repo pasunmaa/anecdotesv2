@@ -13,8 +13,17 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id} >
+        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
     </ul>
+  </div>
+)
+
+const Show = ({ anecdote }) => (
+  <div>
+    <h2>{anecdote.content} by {anecdote.author}</h2>
+    <p>has {anecdote.votes} votes</p>
+    <p>for more info see <a href={anecdote.info}>{anecdote.info}</a></p>
   </div>
 )
 
@@ -26,7 +35,7 @@ const About = () => (
     <em>An anecdote is a brief, revealing account of an individual person or an incident.
       Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
       such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is "a story with a point."</em>
+      An anecdote is &quota story with a point.&quot</em>
 
     <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
   </div>
@@ -52,7 +61,7 @@ class CreateNew extends React.Component {
   }
 
   handleChange = (e) => {
-    console.log(e.target.name, e.target.value)
+    //console.log(e.target.name, e.target.value)
     this.setState({ [e.target.name]: e.target.value })
   }
 
@@ -122,7 +131,7 @@ class App extends React.Component {
   }
 
   anecdoteById = (id) =>
-    this.state.anecdotes.find(a => a.id === id)
+    this.state.anecdotes.find(a => Number(a.id) === Number(id))
 
   vote = (id) => {
     const anecdote = this.anecdoteById(id)
@@ -152,6 +161,9 @@ class App extends React.Component {
               <AnecdoteList anecdotes={this.state.anecdotes} />} />
             <Route path="/create" render={() => <CreateNew addNew={this.addNew} />} />
             <Route path="/about" render={() => <About />} />
+            <Route exact path="/anecdotes/:id" render={({ match }) =>
+              <Show anecdote={this.anecdoteById(match.params.id)} />}
+            />
           </div>
         </Router>
         <Footer />
