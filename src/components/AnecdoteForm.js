@@ -1,5 +1,4 @@
 import React from 'react'
-import anecdoteService from '../services/anecdotes'
 import { anecdoteCreation } from '../reducers/anecdoteReducer'
 import { notificationSet, notificationReset } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
@@ -11,8 +10,7 @@ class AnecdoteForm extends React.Component {
     if (content.length)
     {
       e.target.anecdote.value = ''
-      const newAnecdote = await anecdoteService.createNew(content)
-      this.props.anecdoteCreation(newAnecdote)
+      this.props.anecdoteCreation(content)
       this.props.notificationSet('You have created a new anecodote \''+content+'\'')
     }
     else
