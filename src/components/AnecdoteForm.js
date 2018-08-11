@@ -4,7 +4,7 @@ import { notificationSet, notificationReset } from '../reducers/notificationRedu
 import { connect } from 'react-redux'
 
 class AnecdoteForm extends React.Component {
-  addNote = async (e) => {
+  addNote = (e) => {
     e.preventDefault()
     const content = e.target.anecdote.value
     if (content.length)
