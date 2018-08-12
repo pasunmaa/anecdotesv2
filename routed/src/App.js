@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import React from 'react'
 
 const Notification = (props) => {
@@ -28,7 +28,7 @@ const AnecdoteList = ({ anecdotes }) => (
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map(anecdote => <li key={anecdote.id} >
-        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
+        <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink></li>)}
     </ul>
   </div>
 )
@@ -167,16 +167,26 @@ class App extends React.Component {
     setTimeout(() => this.setState({ notification: '' }), 10000)
   }
 
+  menuStyle = {
+    backgroundColor: 'lightblue',
+    padding: 10
+  }
+  activeStyle = {
+    color: 'white',
+    backgroundColor: 'black',
+    padding: 10
+  }
+
   render() {
     return (
       <div>
         <h1>Software anecdotes</h1>
         <Router>
           <div>
-            <div>
-              <Link to="/">anecdotes</Link> &nbsp;
-              <Link to="/create">create new</Link> &nbsp;
-              <Link to="/about">about</Link>
+            <div style={this.menuStyle}>
+              <NavLink exact activeStyle={this.activeStyle} to="/">anecdotes</NavLink> &nbsp;
+              <NavLink exact activeStyle={this.activeStyle} to="/create">create new</NavLink> &nbsp;
+              <NavLink exact activeStyle={this.activeStyle} to="/about">about</NavLink>
             </div>
             <Notification message={this.state.notification}/>
             <Route exact path="/" render={() =>
