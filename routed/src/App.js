@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
-import { ListGroup, ListGroupItem, Grid, Row, Col } from 'react-bootstrap'
+import { ListGroup, ListGroupItem, Grid, Row, Col, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 
 const Navi = () => {
   const menuStyle = {
@@ -78,8 +78,8 @@ const About = () => (
           <em>An anecdote is a brief, revealing account of an individual person or an incident.
       Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
       such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is &quota story with a point.&quot</em>
-
+      An anecdote is "a story with a point."</em>
+          <p></p>
           <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
         </Col>
         <Col xs={6} md={4}>
@@ -107,12 +107,14 @@ class CreateNew extends React.Component {
     this.state = {
       content: '',
       author: '',
-      info: ''
+      info: '',
+      activefield: ''
     }
   }
 
   handleChange = (e) => {
     //console.log(e.target.name, e.target.value)
+    this.setState({ activefield: [e.target.name] })
     this.setState({ [e.target.name]: e.target.value })
   }
 
@@ -127,28 +129,58 @@ class CreateNew extends React.Component {
     this.props.history.push('/')
   }
 
+  getValidationState() {
+    //console.log(this.state.activefield)
+    if (this.state.activefield.length) {
+      const length = this.state[this.state.activefield].length
+      if (length > 2) return 'success'
+      else if (length > 0) return 'warning'
+      else if (length === 0) return 'error'
+    }
+    return null
+  }
+
   render() {
     return(
       <div>
         <h2>create a new anecdote</h2>
         <form onSubmit={this.handleSubmit}>
-          <div>
-            content
-            <input name='content' value={this.state.content} onChange={this.handleChange} />
-          </div>
-          <div>
-            author
-            <input name='author' value={this.state.author} onChange={this.handleChange} />
-          </div>
-          <div>
-            url for more info
-            <input name='info' value={this.state.info} onChange={this.handleChange} />
-          </div>
-          <button>create</button>
+          <FormGroup
+            controlId="formBasicText"
+            validationState={this.getValidationState()}
+          >
+            <ControlLabel>Anecdote content</ControlLabel>
+            <FormControl
+              type='text'
+              name='content'
+              placeholder='insert anecdote'
+              value={this.state.content}
+              onChange={this.handleChange}
+            />
+            <ControlLabel>Anecdote author</ControlLabel>
+            <FormControl
+              type='text'
+              name='author'
+              placeholder='insert author'
+              value={this.state.author}
+              onChange={this.handleChange}
+            />
+            <ControlLabel>Anecdote URL</ControlLabel>
+            <FormControl
+              type='text'
+              name='info'
+              placeholder='insert info url'
+              value={this.state.info}
+              onChange={this.handleChange}
+            />
+            <Button
+              onClick={this.handleSubmit}
+              bsStyle="success">create
+            </Button>
+          </FormGroup>
         </form>
       </div>
     )
-
   }
 }
 
