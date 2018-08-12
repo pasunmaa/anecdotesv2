@@ -2,8 +2,22 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import React from 'react'
 
 const Notification = (props) => {
+  const notificateStyle = {
+    maxHeight: 45,
+    minHeight: 45,
+    marginTop: 10,
+    marginBottom: 1,
+    paddingLeft: 5,
+    color: 'green',
+    border: '2px solid #4CAF50',
+    borderRadius: 10,
+    fontSize: 15,
+    visibility: 'hidden'
+  }
+  if (props.message !== '')
+    notificateStyle.visibility = 'visible'
   return(
-    <div>
+    <div style={notificateStyle}>
       <p>{props.message}</p>
     </div>
   )
