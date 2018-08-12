@@ -1,5 +1,26 @@
-import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 import React from 'react'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
+import { ListGroup, ListGroupItem } from 'react-bootstrap'
+
+const Navi = () => {
+  const menuStyle = {
+    backgroundColor: 'lightblue',
+    padding: 10
+  }
+  const activeStyle = {
+    color: 'white',
+    backgroundColor: 'black',
+    padding: 10
+  }
+
+  return (
+    <div style={menuStyle}>
+      <NavLink exact activeStyle={activeStyle} to="/">anecdotes</NavLink> &nbsp;
+      <NavLink exact activeStyle={activeStyle} to="/create">create new</NavLink> &nbsp;
+      <NavLink exact activeStyle={activeStyle} to="/about">about</NavLink>
+    </div>
+  )
+}
 
 const Notification = (props) => {
   const notificateStyle = {
@@ -11,14 +32,15 @@ const Notification = (props) => {
     color: 'green',
     border: '2px solid #4CAF50',
     borderRadius: 10,
+    lineHeight: 3,
     fontSize: 15,
     visibility: 'hidden'
   }
   if (props.message !== '')
     notificateStyle.visibility = 'visible'
   return(
-    <div style={notificateStyle}>
-      <p>{props.message}</p>
+    <div>
+      <p style={notificateStyle}>{props.message}</p>
     </div>
   )
 }
@@ -26,10 +48,14 @@ const Notification = (props) => {
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >
-        <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink></li>)}
-    </ul>
+    <ListGroup>
+      <ul>
+        {anecdotes.map(anecdote => <ListGroupItem key={anecdote.id} >
+          <NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink>
+        </ListGroupItem>
+        )}
+      </ul>
+    </ListGroup>
   </div>
 )
 
@@ -167,27 +193,13 @@ class App extends React.Component {
     setTimeout(() => this.setState({ notification: '' }), 10000)
   }
 
-  menuStyle = {
-    backgroundColor: 'lightblue',
-    padding: 10
-  }
-  activeStyle = {
-    color: 'white',
-    backgroundColor: 'black',
-    padding: 10
-  }
-
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Software anecdotes</h1>
         <Router>
           <div>
-            <div style={this.menuStyle}>
-              <NavLink exact activeStyle={this.activeStyle} to="/">anecdotes</NavLink> &nbsp;
-              <NavLink exact activeStyle={this.activeStyle} to="/create">create new</NavLink> &nbsp;
-              <NavLink exact activeStyle={this.activeStyle} to="/about">about</NavLink>
-            </div>
+            <Navi />
             <Notification message={this.state.notification}/>
             <Route exact path="/" render={() =>
               <AnecdoteList anecdotes={this.state.anecdotes} />} />
